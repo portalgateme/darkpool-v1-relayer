@@ -45,8 +45,36 @@ const stakingTokenConfig = {
       name: 'sgUSDC',
     },
   ],
-  [ChainId.POLYGON]: [],
-  [ChainId.SEPOLIA]: [],
+  [ChainId.BounceBit]: [
+    {
+      originalToken: '0x0000000000000000000000000000000000000000',
+      stakingToken: '0x5D873095152b921222241c0Cbd82d83b47bB31D3',
+      name: 'sgBB',
+    },
+    {
+      originalToken: '0xF5e11df1ebCf78b6b6D26E04FF19cD786a1e81dC',
+      stakingToken: '0x578A43b97a9c46b13B153Df6AA05393b78E241Ee',
+      name: 'sgBBTC',
+    },
+    {
+      originalToken: '0x77776b40C3d75cb07ce54dEA4b2Fd1D07F865222',
+      stakingToken: '0x9af2DDB1E3A30442f590f659e13a243Da15C86A0',
+      name: 'sgBBUSD',
+    },
+    {
+      originalToken: '0x22aAC17E571D6651880d057e310703fF4C7c3483',
+      stakingToken: '0x3dD11E06DAA99AD255C83545d05Ad27602e0907F',
+      name: 'sgSTBB',
+    }
+  ],
+  [ChainId.BASE]: [],
+  [ChainId.SEPOLIA]: [
+    {
+      originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+      stakingToken: '0x56fBD5d5C3e9D5f9Ae916F113232d52e6E377E71',
+      name: 'sgETH',
+    },
+  ],
   [ChainId.BounceBitTestnet]: [
     {
       originalToken: '0x0000000000000000000000000000000000000000',
@@ -57,17 +85,28 @@ const stakingTokenConfig = {
   [ChainId.HARDHAT]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x30A6d2B697635a0ECf1975d2386A0FE6b608B0Fb',
+      stakingToken: '0x5fe2f174fe51474Cd198939C96e7dB65983EA307',
       name: 'sgETH',
     },
     {
       originalToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      stakingToken: '0xCd9BC6cE45194398d12e27e1333D5e1d783104dD',
+      stakingToken: '0x8AFB0C54bAE39A5e56b984DF1C4b5702b2abf205',
       name: 'sgUSDC',
     },
   ],
   [ChainId.HARDHAT_ARBITRUM]: [],
-  [ChainId.HARDHAT_POLYGON]: [],
+  [ChainId.HARDHAT_BASE]: [
+    {
+      originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+      stakingToken: '0x63ecE4C05B8fB272D16844E96702Ea2f26370982',
+      name: 'sgETH',
+    },
+    {
+      originalToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      stakingToken: '0x3576293Ba6Adacba1A81397db889558Dd91A8519',
+      name: 'sgUSDC',
+    },
+  ],
 }
 
 

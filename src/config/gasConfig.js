@@ -1,51 +1,55 @@
 const { jobType } = require('./constants')
+const { ChainId } = require('./constants')
 
+
+const DEFAULT_MAX_PRIORITY_FEE = 3
+
+const maxPriorityFeeConfig = {
+    [ChainId.ARBITRUM_ONE]: 0,
+    [ChainId.HARDHAT_ARBITRUM]: 0,
+}
 
 const gasLimitConfig = {
-    [1]: {
+    [ChainId.MAINNET]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [42161]: {
+    [ChainId.ARBITRUM_ONE]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [137]: {
+    [ChainId.BASE]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [8453]: {
+    [ChainId.BounceBit]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [6001]: {
+    [ChainId.SEPOLIA]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [11155111]: {
+    [ChainId.BounceBitTestnet]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [6000]: {
+    [ChainId.HARDHAT]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [31337]: {
+    [ChainId.HARDHAT_ARBITRUM]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     },
-    [31338]: {
-        WITHDRAW_WITH_EXTRA: 3000000,
-        DEFI_WITH_EXTRA: 20000000,
-    },
-    [31339]: {
+    [ChainId.HARDHAT_BASE]: {
         WITHDRAW_WITH_EXTRA: 3000000,
         DEFI_WITH_EXTRA: 20000000,
     }
 }
 
 const gasUnitFallbackConfig = {
-    [1]: {
+    [ChainId.MAINNET]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -58,8 +62,10 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 3000000,
     },
-    [42161]: {
+    [ChainId.ARBITRUM_ONE]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 1800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 3000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 5800000,
@@ -72,8 +78,26 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 3000000,
         [jobType.PG_DARKPOOL_ZK_STAKE]: 3000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 3000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 3000000,
+        [jobType.PG_DARKPOOL_INFRA]: 3000000,
     },
-    [137]: {
+    [ChainId.BASE]: {
+        [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
+        [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
+        [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
+        [jobType.PG_DARKPOOL_UNISWAP_FEE_COLLECTING]: 2800000,
+        [jobType.PG_DARKPOOL_UNISWAP_REMOVE_LIQUIDITY]: 3000000,
+        [jobType.PG_DARKPOOL_CURVE_MULTI_EXCHANGE]: 2200000,
+        [jobType.PG_DARKPOOL_CURVE_ADD_LIQUIDITY]: 5000000,
+        [jobType.PG_DARKPOOL_CURVE_REMOVE_LIQUIDITY]: 4300000,
+        [jobType.PG_DARKPOOL_ROCKET_POOL_STAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 3000000,
+    },
+    [ChainId.BounceBit]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -87,7 +111,23 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
     },
-    [8453]: {
+    [ChainId.SEPOLIA]: {
+        [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
+        [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
+        [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
+        [jobType.PG_DARKPOOL_UNISWAP_FEE_COLLECTING]: 2800000,
+        [jobType.PG_DARKPOOL_UNISWAP_REMOVE_LIQUIDITY]: 3000000,
+        [jobType.PG_DARKPOOL_CURVE_MULTI_EXCHANGE]: 2200000,
+        [jobType.PG_DARKPOOL_CURVE_ADD_LIQUIDITY]: 5000000,
+        [jobType.PG_DARKPOOL_CURVE_REMOVE_LIQUIDITY]: 4300000,
+        [jobType.PG_DARKPOOL_ROCKET_POOL_STAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
+        [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 3000000,
+    },
+    [ChainId.BounceBitTestnet]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -101,7 +141,7 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
     },
-    [6001]: {
+    [ChainId.HARDHAT]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -114,8 +154,10 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 2000000,
     },
-    [11155111]: {
+    [ChainId.HARDHAT_ARBITRUM]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -128,8 +170,10 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 2000000,
     },
-    [6000]: {
+    [ChainId.HARDHAT_BASE]: {
         [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
         [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
         [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
@@ -142,52 +186,14 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
         [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
-    },
-    [31337]: {
-        [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
-        [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
-        [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
-        [jobType.PG_DARKPOOL_UNISWAP_FEE_COLLECTING]: 2800000,
-        [jobType.PG_DARKPOOL_UNISWAP_REMOVE_LIQUIDITY]: 3000000,
-        [jobType.PG_DARKPOOL_CURVE_MULTI_EXCHANGE]: 2200000,
-        [jobType.PG_DARKPOOL_CURVE_ADD_LIQUIDITY]: 5000000,
-        [jobType.PG_DARKPOOL_CURVE_REMOVE_LIQUIDITY]: 4300000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
-    },
-    [31338]: {
-        [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
-        [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
-        [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
-        [jobType.PG_DARKPOOL_UNISWAP_FEE_COLLECTING]: 2800000,
-        [jobType.PG_DARKPOOL_UNISWAP_REMOVE_LIQUIDITY]: 3000000,
-        [jobType.PG_DARKPOOL_CURVE_MULTI_EXCHANGE]: 2200000,
-        [jobType.PG_DARKPOOL_CURVE_ADD_LIQUIDITY]: 5000000,
-        [jobType.PG_DARKPOOL_CURVE_REMOVE_LIQUIDITY]: 4300000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
-    },
-    [31339]: {
-        [jobType.PG_DARKPOOL_WITHDRAW]: 800000,
-        [jobType.PG_DARKPOOL_UNISWAP_SINGLESWAP]: 2000000,
-        [jobType.PG_DARKPOOL_UNISWAP_LP]: 4800000,
-        [jobType.PG_DARKPOOL_UNISWAP_FEE_COLLECTING]: 2800000,
-        [jobType.PG_DARKPOOL_UNISWAP_REMOVE_LIQUIDITY]: 3000000,
-        [jobType.PG_DARKPOOL_CURVE_MULTI_EXCHANGE]: 2200000,
-        [jobType.PG_DARKPOOL_CURVE_ADD_LIQUIDITY]: 5000000,
-        [jobType.PG_DARKPOOL_CURVE_REMOVE_LIQUIDITY]: 4300000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ROCKET_POOL_UNSTAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_STAKE]: 2000000,
-        [jobType.PG_DARKPOOL_ZK_REDEEM]: 2000000,
+        [jobType.PG_DARKPOOL_SABLIER_CLAIM]: 2000000,
+        [jobType.PG_DARKPOOL_INFRA]: 3000000,
     }
 }
 
 module.exports = {
     gasLimitConfig,
-    gasUnitFallbackConfig
+    gasUnitFallbackConfig,
+    maxPriorityFeeConfig,
+    DEFAULT_MAX_PRIORITY_FEE
 }
