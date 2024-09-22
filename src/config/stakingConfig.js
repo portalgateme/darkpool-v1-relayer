@@ -96,24 +96,24 @@ const stakingTokenConfig = {
   [ChainId.HARDHAT]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0xA5c9020ea95324a05B48491FB3e61Ba111E5dd95',
+      stakingToken: '0x093D305366218D6d09bA10448922F10814b031dd',
       name: 'sgETH',
     },
     {
       originalToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      stakingToken: '0x093D305366218D6d09bA10448922F10814b031dd',
+      stakingToken: '0x061FB3749C4eD5e3c2d28a284940093cfDFcBa20',
       name: 'sgUSDC',
     },
   ],
   [ChainId.HARDHAT_ARBITRUM]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x263a5ad450bD51cea3c818ba87c80608Cb283508',
+      stakingToken: '0x391D0aA2EfAaddC7ccb7f0dC2a1e9336719085c8',
       name: 'sgETH',
     },
     {
       originalToken: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-      stakingToken: '0x391D0aA2EfAaddC7ccb7f0dC2a1e9336719085c8',
+      stakingToken: '0x5DE9Ff054084071ca111f35180Cb44c2e413be92',
       name: 'sgUSDC',
     },
   ],
