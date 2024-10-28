@@ -16,6 +16,8 @@ const {
   getPgDarkPoolAerodromeAddLiquidityInputError,
   getPgDarkPoolAerodromeRemoveLiquidityInputError,
   getPgDarkPoolAerodromeSwapInputError,
+  getPgDarkPoolTorosYieldDepositInputError,
+  getPgDarkPoolTorosYieldWithdrawInputError,
 } = require('../modules/validator')
 const { postJob } = require('../queue')
 const { jobType } = require('../config/constants')
@@ -259,6 +261,34 @@ async function pgDarkPoolAerodromeSwap(req, res) {
   return res.json({ id })
 }
 
+async function pgDarkPoolTorosYieldDeposit(req, res) {
+  const inputError = getPgDarkPoolTorosYieldDepositInputError(req.body)
+  if (inputError) {
+    console.log('Invalid input:', inputError)
+    return res.status(400).json({ error: inputError })
+  }
+
+  const id = await postJob({
+    type: jobType.PG_DARKPOOL_TOROS_YIELD_DEPOSIT,
+    request: req.body,
+  })
+  return res.json({ id })
+}
+
+async function pgDarkPoolTorosYieldWithdraw(req, res) {
+  const inputError = getPgDarkPoolTorosYieldWithdrawInputError(req.body)
+  if (inputError) {
+    console.log('Invalid input:', inputError)
+    return res.status(400).json({ error: inputError })
+  }
+
+  const id = await postJob({
+    type: jobType.PG_DARKPOOL_TOROS_YIELD_WITHDRAW,
+    request: req.body,
+  })
+  return res.json({ id })
+}
+
 
 
 module.exports = {
@@ -279,4 +309,6 @@ module.exports = {
   pgDarkPoolAerodromeAddLiquidity,
   pgDarkPoolAerodromeRemoveLiquidity,
   pgDarkPoolAerodromeSwap,
+  pgDarkPoolTorosYieldDeposit,
+  pgDarkPoolTorosYieldWithdraw,
 }

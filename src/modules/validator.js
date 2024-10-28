@@ -639,6 +639,59 @@ const pgDarkPoolAerodromeSwapSchema = {
   ],
 }
 
+const pgDarkPoolTorosYieldDepositSchema = {
+  type: 'object',
+  properties: {
+    proof: proofType,
+    merkleRoot: bytes32Type,
+    nullifier: bytes32Type,
+    asset: assetType,
+    amount: Uint256Type,
+    torosPoolAddress: addressType,
+    torosUnderlyingAsset: assetType,
+    noteFooter: bytes32Type,
+    relayer: relayerType,
+    refund: Uint256Type,
+    verifierArgs: {
+      type: 'array',
+      maxItems: 9,
+      minItems: 9,
+      items: new Array(9).fill(bytes32Type),
+    },
+  },
+  additionalProperties: false,
+  required: [
+    'proof', 'merkleRoot', 'nullifier', 'asset', 'amount', 'torosPoolAddress', 'torosUnderlyingAsset',
+    'noteFooter', 'relayer', 'refund', 'verifierArgs'
+  ],
+}
+
+const pgDarkPoolTorosYieldWithdrawSchema = {
+  type: 'object',
+  properties: {
+    proof: proofType,
+    merkleRoot: bytes32Type,
+    nullifier: bytes32Type,
+    nftId: Uint256Type,
+    slippageTolerance: Uint256Type,
+    noteFooter: bytes32Type,
+    noteFooterProfit: bytes32Type,
+    relayer: relayerType,
+    refund: Uint256Type,
+    verifierArgs: {
+      type: 'array',
+      maxItems: 9,
+      minItems: 9,
+      items: new Array(9).fill(bytes32Type),
+    },
+  },
+  additionalProperties: false,
+  required: [
+    'proof', 'merkleRoot', 'nullifier', 'nftId', 'slippageTolerance', 'noteFooter', 'noteFooterProfit',
+    'relayer', 'refund', 'verifierArgs'
+  ],
+}
+
 
 const validatePgDarkPoolWithdraw = ajv.compile(pgDarkPoolWithdrawSchema)
 const validatePgDarkPoolUniswapSS = ajv.compile(pgDarkPoolUniswapSSSchema)
@@ -657,6 +710,8 @@ const validatePgDarkPoolDefiInfra = ajv.compile(pgDarkPoolDefiInfraSchema)
 const validatePgDarkPoolAerodromeAddLiquidity = ajv.compile(pgDarkPoolAerodromeAddLiquiditySchema)
 const validatePgDarkPoolAerodromeRemoveLiquidity = ajv.compile(pgDarkPoolAerodromeRemoveLiquiditySchema)
 const validatePgDarkPoolAerodromeSwap = ajv.compile(pgDarkPoolAerodromeSwapSchema)
+const validatePgDarkPoolTorosYieldDeposit = ajv.compile(pgDarkPoolTorosYieldDepositSchema)
+const validatePgDarkPoolTorosYieldWithdraw = ajv.compile(pgDarkPoolTorosYieldWithdrawSchema)
 
 
 function getInputError(validator, data) {
@@ -737,6 +792,13 @@ function getPgDarkPoolAerodromeSwapInputError(data) {
   return getInputError(validatePgDarkPoolAerodromeSwap, data)
 }
 
+function getPgDarkPoolTorosYieldDepositInputError(data) {
+  return getInputError(validatePgDarkPoolTorosYieldDeposit, data)
+}
+
+function getPgDarkPoolTorosYieldWithdrawInputError(data) {
+  return getInputError(validatePgDarkPoolTorosYieldWithdraw, data)
+}
 
 module.exports = {
   getPgDarkPoolWithdrawInputError,
@@ -756,4 +818,6 @@ module.exports = {
   getPgDarkPoolAerodromeAddLiquidityInputError,
   getPgDarkPoolAerodromeRemoveLiquidityInputError,
   getPgDarkPoolAerodromeSwapInputError,
+  getPgDarkPoolTorosYieldDepositInputError,
+  getPgDarkPoolTorosYieldWithdrawInputError,
 }
