@@ -5,6 +5,7 @@ const {
     gasLimits,
 } = require('../config/config')
 const { calculateFeesForOneToken } = require('../modules/fees')
+const { getOriginalToken } = require('../defi/stakingService')
 
 const { BaseWorker } = require('./baseWorker')
 
@@ -38,7 +39,7 @@ class TorosYieldDepositWorker extends BaseWorker {
 
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
-        const originalAsset = await this.getOriginalToken(web3, data.asset)
+        const originalAsset = await getOriginalToken(web3, data.asset)
         const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, originalAsset, data.amount)
         if (gasFeeInToken + serviceFeeInToken > BigInt(data.amount)) {
             throw new Error('Insufficient amount to pay fees')
