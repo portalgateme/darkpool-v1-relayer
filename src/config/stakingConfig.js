@@ -108,12 +108,12 @@ const stakingTokenConfig = {
   [ChainId.HARDHAT_ARBITRUM]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x391D0aA2EfAaddC7ccb7f0dC2a1e9336719085c8',
+      stakingToken: '0xD9d684546ED4c727B136503016E137822DD9b4D7',
       name: 'sgETH',
     },
     {
       originalToken: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-      stakingToken: '0x5DE9Ff054084071ca111f35180Cb44c2e413be92',
+      stakingToken: '0x79b3f34855c3478Fa45f65344a3f5E3c7b94405c',
       name: 'sgUSDC',
     },
   ],
