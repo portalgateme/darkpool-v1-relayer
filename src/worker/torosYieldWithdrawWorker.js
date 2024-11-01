@@ -42,18 +42,16 @@ class TorosYieldWithdrawWorker extends BaseWorker {
 
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
-        const estimatedResult = await this.getEstimatedAmount(web3, data)
-        console.log(estimatedResult)
+        // const estimatedResult = await this.getEstimatedAmount(web3, data)
+        // console.log(estimatedResult)
 
-        const originalAsset = await getOriginalToken(web3, estimatedResult[0])
-        const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, originalAsset, estimatedResult[1]+estimatedResult[2])
-        if (gasFeeInToken + serviceFeeInToken > BigInt(estimatedResult[1]+estimatedResult[2])) {
-            throw new Error('Insufficient amount to pay fees')
-        }
+        // const originalAsset = await getOriginalToken(web3, estimatedResult[0])
+        // const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, originalAsset, estimatedResult[1]+estimatedResult[2])
+        // if (gasFeeInToken + serviceFeeInToken > BigInt(estimatedResult[1]+estimatedResult[2])) {
+            // throw new Error('Insufficient amount to pay fees')
+        // }
 
-        // console.log(gasFee, gasFeeInToken, serviceFeeInToken, BigInt(data.amount))
-
-        const contractCall = this.getContractCall(contract, data, gasFeeInToken)
+        const contractCall = this.getContractCall(contract, data, 0n)
 
         return {
             to: contract._address,

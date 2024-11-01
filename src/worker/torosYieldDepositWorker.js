@@ -19,7 +19,6 @@ class TorosYieldDepositWorker extends BaseWorker {
             data.asset,
             data.amount,
             data.torosPoolAddress,
-            data.torosUnderlyingAsset,
             data.noteFooter,
             data.relayer,
             refund)
