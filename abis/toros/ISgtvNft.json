@@ -1,0 +1,121 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "ISgtvNft",
+  "sourceName": "contracts/defi/toros/interfaces/ISgtvNft.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nftId",
+          "type": "uint256"
+        }
+      ],
+      "name": "burnNFT",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "nftId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getNftInfo",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sgToken",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "sgTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "torosToken",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "torosTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "torosTokenOpenPrice",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct ISgtvNft.TorosNftStorage",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sgToken",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "sgTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "torosToken",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "torosTokenAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "torosTokenOpenPrice",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct ISgtvNft.TorosNftStorage",
+          "name": "nftStorage",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "receipt",
+          "type": "address"
+        }
+      ],
+      "name": "issueNFT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

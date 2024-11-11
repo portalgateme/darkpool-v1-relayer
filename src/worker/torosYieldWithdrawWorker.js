@@ -6,6 +6,7 @@ const {
 } = require('../config/config')
 const { calculateFeesForOneToken } = require('../modules/fees')
 const { getOriginalToken } = require('../defi/stakingService')
+const { getNftInfo } = require('../defi/torosService')
 
 const { BaseWorker } = require('./baseWorker')
 
@@ -35,23 +36,18 @@ class TorosYieldWithdrawWorker extends BaseWorker {
         return new web3.eth.Contract(torosAssetManagerAbi.abi, pgDarkPoolTorosAssetManager)
     }
 
-    async getEstimatedAmount(web3, data) {
-        const contract = this.getContract(web3)
-        return contract.methods.estimateOut(data.nftId).call()
-    }
 
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
-        // const estimatedResult = await this.getEstimatedAmount(web3, data)
-        // console.log(estimatedResult)
+        const [sgToken,sgTokenAmount,torosToken,torosTokenAmount] = await getNftInfo(web3, data.nftId)
 
-        // const originalAsset = await getOriginalToken(web3, estimatedResult[0])
-        // const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, originalAsset, estimatedResult[1]+estimatedResult[2])
-        // if (gasFeeInToken + serviceFeeInToken > BigInt(estimatedResult[1]+estimatedResult[2])) {
-            // throw new Error('Insufficient amount to pay fees')
-        // }
+        const originalAsset = await getOriginalToken(web3, sgToken)
+        const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, originalAsset, sgTokenAmount)
+        if (gasFeeInToken + serviceFeeInToken > BigInt(sgTokenAmount)) {
+            throw new Error('Insufficient amount to pay fees')
+        }
 
-        const contractCall = this.getContractCall(contract, data, 0n)
+        const contractCall = this.getContractCall(contract, data, gasFeeInToken)
 
         return {
             to: contract._address,
