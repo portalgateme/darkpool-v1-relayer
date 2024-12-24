@@ -1,4 +1,6 @@
 const { ChainId } = require('./constants')
+const hardhat = require('./contracts/hardhat.json')
+const hardhatArb = require('./contracts/hardhatArb.json')
 
 const stakingTokenConfig = {
   [ChainId.MAINNET]: [
@@ -96,24 +98,24 @@ const stakingTokenConfig = {
   [ChainId.HARDHAT]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x093D305366218D6d09bA10448922F10814b031dd',
+      stakingToken: hardhat.sgETH,
       name: 'sgETH',
     },
     {
       originalToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      stakingToken: '0x061FB3749C4eD5e3c2d28a284940093cfDFcBa20',
+      stakingToken: hardhat.sgUSDC,
       name: 'sgUSDC',
     },
   ],
   [ChainId.HARDHAT_ARBITRUM]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x8A14aFDa2dde0dAF55b0271Cb9Dc2376F40DeCdC',
+      stakingToken: hardhatArb.sgETH,
       name: 'sgETH',
     },
     {
       originalToken: '0xaf88d065e77c8cc2239327c5edb3a432268e5831',
-      stakingToken: '0xc3d6be0415e8257fE8Cec8317A25d73C8C57c0A0',
+      stakingToken: hardhatArb.sgUSDC,
       name: 'sgUSDC',
     },
   ],
