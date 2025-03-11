@@ -82,7 +82,7 @@ const stakingTokenConfig = {
   [ChainId.SEPOLIA]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x56fBD5d5C3e9D5f9Ae916F113232d52e6E377E71',
+      stakingToken: '0x540bF62600C076F2402fC77A1C33B57d04771ac4',
       name: 'sgETH',
     },
   ],
