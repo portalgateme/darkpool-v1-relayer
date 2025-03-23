@@ -1,7 +1,7 @@
 const { ChainId } = require('./constants')
 const hardhat = require('./contracts/hardhat.json')
 const hardhatArb = require('./contracts/hardhatArb.json')
-
+const hardhatBase = require('./contracts/hardhatBase.json')
 const stakingTokenConfig = {
   [ChainId.MAINNET]: [
     {
@@ -122,12 +122,12 @@ const stakingTokenConfig = {
   [ChainId.HARDHAT_BASE]: [
     {
       originalToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      stakingToken: '0x63ecE4C05B8fB272D16844E96702Ea2f26370982',
+      stakingToken: hardhatBase.sgETH,
       name: 'sgETH',
     },
     {
       originalToken: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-      stakingToken: '0x3576293Ba6Adacba1A81397db889558Dd91A8519',
+      stakingToken: hardhatBase.sgUSDC,
       name: 'sgUSDC',
     },
   ],
