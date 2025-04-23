@@ -17,7 +17,7 @@ const gasLimitConfig = {
         DEFI_WITH_EXTRA: 20000000,
     },
     [ChainId.ARBITRUM_ONE]: {
-        WITHDRAW_WITH_EXTRA: 3000000,
+        WITHDRAW_WITH_EXTRA: 20000000,
         DEFI_WITH_EXTRA: 20000000,
     },
     [ChainId.BASE]: {
