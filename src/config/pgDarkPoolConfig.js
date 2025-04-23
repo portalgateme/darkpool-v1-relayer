@@ -1,7 +1,7 @@
 const { ChainId } = require('./constants')
 const hardhat = require('./contracts/hardhat.json')
 const hardhatArb = require('./contracts/hardhatArb.json')
-
+const hardhatBase = require('./contracts/hardhatBase.json')
 
 module.exports = {
   [ChainId.MAINNET]: {
@@ -277,20 +277,20 @@ module.exports = {
     curveMultiExchangeAssetManager: '0x0',
     curveRemoveLiquidityAssetManager: '0x0',
     curveSingleExchangeAssetManager: '0x0',
-    stakingOperator: '0xcC4c41415fc68B2fBf70102742A83cDe435e0Ca7',
-    verifierHub: '0xa722bdA6968F50778B973Ae2701e90200C564B49',
-    darkpoolAssetManager: '0x0aec7c174554AF8aEc3680BB58431F6618311510',
-    nftAssetManager: '0x683d9CDD3239E0e01E8dC6315fA50AD92aB71D2d',
-    oTCSwapAssetManager: '0xAe120F0df055428E45b264E7794A18c54a2a3fAF',
-    aerodromeAddLiquidityAssetManager: '0x1343248Cbd4e291C6979e70a138f4c774e902561',
-    aerodromeRemoveLiquidityAssetManager: '0x5e6CB7E728E1C320855587E1D9C6F7972ebdD6D5',
-    aerodromeSwapAssetManager: '0xd9fEc8238711935D6c8d79Bef2B9546ef23FC046',
-    generalDefiIntegrationAssetManager: '0x987e855776C03A4682639eEb14e65b3089EE6310',
-    sablierDynamicAssetManager: '0x7580708993de7CA120E957A62f26A5dDD4b3D8aC',
-    sablierLinearAssetManager: '0xCd7c00Ac6dc51e8dCc773971Ac9221cC582F3b1b',
-    stakingAssetManager: '0xf5c4a909455C00B99A90d93b48736F3196DB5621',
-    uniswapLiquidityAssetManager: '0x1D8D70AD07C8E7E442AD78E4AC0A16f958Eba7F0',
-    uniswapSwapAssetManager: '0xb868Cc77A95a65F42611724AF05Aa2d3B6Ec05F2',
+    stakingOperator: hardhatBase.stakingOperator,
+    verifierHub: hardhatBase.verifierHub,
+    darkpoolAssetManager: hardhatBase.darkpoolAssetManager,
+    nftAssetManager: hardhatBase.nftAssetManager,
+    oTCSwapAssetManager: hardhatBase.oTCSwapAssetManager,
+    aerodromeAddLiquidityAssetManager: hardhatBase.aerodromeAddLiquidityAssetManager,
+    aerodromeRemoveLiquidityAssetManager: hardhatBase.aerodromeRemoveLiquidityAssetManager,
+    aerodromeSwapAssetManager: hardhatBase.aerodromeSwapAssetManager,
+    generalDefiIntegrationAssetManager: hardhatBase.generalDefiIntegrationAssetManager,
+    sablierDynamicAssetManager: hardhatBase.sablierDynamicAssetManager,
+    sablierLinearAssetManager: hardhatBase.sablierLinearAssetManager,
+    stakingAssetManager: hardhatBase.stakingAssetManager,
+    uniswapLiquidityAssetManager: hardhatBase.uniswapLiquidityAssetManager,
+    uniswapSwapAssetManager: hardhatBase.uniswapSwapAssetManager,
 
     uniswapNfpManager: '0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1',
     uniswapFactory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
