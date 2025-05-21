@@ -35,7 +35,7 @@ class AerodromSwapWorker extends BaseWorker {
     async estimateGas(web3, data) {
         const contract = this.getContract(web3)
         const contractCall = this.getContractCall(contract, data, data.gasRefund)
-        return await contractCall.estimateGas()
+        return await contractCall.estimateGas({ from: data.relayer })
     }
 
     getContract(web3) {
