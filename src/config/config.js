@@ -33,6 +33,7 @@ module.exports = {
   pgDarkPoolAerodromeRemoveLiquidityAssetManager: pgConfig[netId].aerodromeRemoveLiquidityAssetManager,
   pgDarkPoolAerodromeSwapAssetManager: pgConfig[netId].aerodromeSwapAssetManager,
   pgDarkPoolTorosAssetManager: pgConfig[netId].torosAssetManager,
+  pgDarkPoolTheDeepVaultAssetManager: pgConfig[netId].theDeepVaultAssetManager,
   pgDarkPoolSgtvNft: pgConfig[netId].sgtvNft,
 
   uniswapNfpManager: pgConfig[netId].uniswapNfpManager,
