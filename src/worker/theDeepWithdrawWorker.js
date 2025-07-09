@@ -11,14 +11,14 @@ class TheDeepWithdrawWorker extends BaseWorker {
 
     getContractCall(contract, data, refund) {
         let calldata = contract.methods.theDeepWithdraw(
-            [
-                data.merkleRoot,
-                data.vaultAddress,
-                data.amount,
-                data.nullifier,
-                [data.outNoteFooter1, data.outNoteFooter2],
-                [data.outAsset1, data.outAsset2]
-            ],
+            {
+                merkleRoot: data.merkleRoot,
+                vaultAddress: data.vaultAddress,
+                amount: data.amount,
+                nullifier: data.nullifier,
+                outNoteFooters: [data.outNoteFooter1, data.outNoteFooter2],
+                assetsOut: [data.outAsset1, data.outAsset2]
+            },
             data.proof
         )
 
