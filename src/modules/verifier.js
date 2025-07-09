@@ -24,6 +24,7 @@ const verifierMap = {
    [jobType.PG_DARKPOOL_AERODROME_SWAP]: 'aerodromeSwap',
    [jobType.PG_DARKPOOL_TOROS_YIELD_DEPOSIT]: 'torosDeposit',
    [jobType.PG_DARKPOOL_TOROS_YIELD_WITHDRAW]: 'torosWithdraw',
+   [jobType.PG_DARKPOOL_THE_DEEP_WITHDRAW]: 'thedeepWithdraw',
  }
 
 async function zkProofVerifier(web3, proof, input, job) {
