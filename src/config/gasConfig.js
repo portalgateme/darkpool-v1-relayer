@@ -224,6 +224,7 @@ const gasUnitFallbackConfig = {
         [jobType.PG_DARKPOOL_AERODROME_SWAP]: 2000000,
         [jobType.PG_DARKPOOL_TOROS_YIELD_DEPOSIT]: 2000000,
         [jobType.PG_DARKPOOL_TOROS_YIELD_WITHDRAW]: 2000000,
+        [jobType.PG_DARKPOOL_THE_DEEP_WITHDRAW]: 2000000,
     }
 }
 
