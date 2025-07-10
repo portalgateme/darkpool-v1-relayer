@@ -16,6 +16,7 @@ class TheDeepWithdrawWorker extends BaseWorker {
                 vaultAddress: data.vaultAddress,
                 amount: data.amount,
                 nullifier: data.nullifier,
+                gasRefund: refund,
                 outNoteFooters: [data.outNoteFooter1, data.outNoteFooter2],
                 assetsOut: [data.outAsset1, data.outAsset2]
             },
@@ -27,19 +28,30 @@ class TheDeepWithdrawWorker extends BaseWorker {
 
     async estimateGas(web3, data) {
         const contract = this.getContract(web3)
-        const contractCall = this.getContractCall(contract, data, data.refund)
-        return await contractCall.estimateGas()
+        const contractCall = this.getContractCall(contract, data, [0n, 0n])
+        return await contractCall.estimateGas({ from: data.relayer })
+    }
+
+    async quoteDecreaseLiquidity(web3, data) {
+        const contract = this.getContract(web3)
+        const [token0Amount, token1Amount] = await contract.methods.quoteDecreaseLiquidity(data.amount, data.vaultAddress).call()
+        return [token0Amount, token1Amount]
     }
 
     getContract(web3) {
         return new web3.eth.Contract(theDeepVaultAssetManagerAbi.abi, pgDarkPoolTheDeepVaultAssetManager)
     }
 
-
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
+        const [token0Amount, token1Amount] = await this.quoteDecreaseLiquidity(web3, data)
+        const fees = await calculateFeeForTokens(gasFee, [data.outAsset1, data.outAsset2], [token0Amount, token1Amount])
+        if (fees[0].gasFeeInToken + fees[0].serviceFeeInToken > token0Amount
+            || fees[1].gasFeeInToken + fees[1].serviceFeeInToken > token1Amount) {
+            throw new Error('Insufficient amount to pay fees')
+        }
 
-        const contractCall = this.getContractCall(contract, data, data.refund)
+        const contractCall = this.getContractCall(contract, data, [fees[0].gasFeeInToken, fees[1].gasFeeInToken])
 
         return {
             to: contract._address,
