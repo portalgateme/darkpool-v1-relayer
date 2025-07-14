@@ -5,6 +5,7 @@ const {
     gasLimits,
 } = require('../config/config')
 
+const { calculateFeeForTokens } = require('../modules/fees')
 const { BaseWorker } = require('./baseWorker')
 
 class TheDeepWithdrawWorker extends BaseWorker {
@@ -34,8 +35,8 @@ class TheDeepWithdrawWorker extends BaseWorker {
 
     async quoteDecreaseLiquidity(web3, data) {
         const contract = this.getContract(web3)
-        const [token0Amount, token1Amount] = await contract.methods.quoteDecreaseLiquidity(data.amount, data.vaultAddress).call()
-        return [token0Amount, token1Amount]
+        const result = await contract.methods.quoteDecreaseLiquidity(data.amount, data.vaultAddress).call()
+        return [BigInt(result['0']), BigInt(result['1'])]
     }
 
     getContract(web3) {
