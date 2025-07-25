@@ -24,6 +24,7 @@ const verifierMap = {
    [jobType.PG_DARKPOOL_AERODROME_SWAP]: 'aerodromeSwap',
    [jobType.PG_DARKPOOL_TOROS_YIELD_DEPOSIT]: 'torosDeposit',
    [jobType.PG_DARKPOOL_TOROS_YIELD_WITHDRAW]: 'torosWithdraw',
+   [jobType.PG_DARKPOOL_THE_DEEP_NOTE_DEPOSIT]: 'thedeepNoteDeposit',
    [jobType.PG_DARKPOOL_THE_DEEP_WITHDRAW]: 'thedeepWithdraw',
  }
 

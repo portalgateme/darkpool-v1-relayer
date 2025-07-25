@@ -18,6 +18,7 @@ const { AerodromSwapWorker } = require('./worker/aerodromeSwapWorker')
 const { TorosYieldDepositWorker } = require('./worker/torosYieldDepositWorker')
 const { TorosYieldWithdrawWorker } = require('./worker/torosYieldWithdrawWorker')
 const { TheDeepWithdrawWorker } = require('./worker/theDeepWithdrawWorker')
+const { TheDeepNoteDepositWorker } = require('./worker/theDeepNoteDepositWorker')
 
 const { queue } = require('./queue')
 const {
@@ -63,6 +64,7 @@ const workerMapping = {
   [jobType.PG_DARKPOOL_AERODROME_SWAP]: new AerodromSwapWorker(),
   [jobType.PG_DARKPOOL_TOROS_YIELD_DEPOSIT]: new TorosYieldDepositWorker(),
   [jobType.PG_DARKPOOL_TOROS_YIELD_WITHDRAW]: new TorosYieldWithdrawWorker(),
+  [jobType.PG_DARKPOOL_THE_DEEP_NOTE_DEPOSIT]: new TheDeepNoteDepositWorker(),
   [jobType.PG_DARKPOOL_THE_DEEP_WITHDRAW]: new TheDeepWithdrawWorker(),
 }
 
