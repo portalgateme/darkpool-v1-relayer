@@ -251,6 +251,12 @@
         },
         {
           "indexed": false,
+          "internalType": "address",
+          "name": "receipt",
+          "type": "address"
+        },
+        {
+          "indexed": false,
           "internalType": "address[2]",
           "name": "assetsOut",
           "type": "address[2]"
@@ -260,18 +266,6 @@
           "internalType": "uint256[2]",
           "name": "amountsOut",
           "type": "uint256[2]"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes32[2]",
-          "name": "noteFooters",
-          "type": "bytes32[2]"
-        },
-        {
-          "indexed": false,
-          "internalType": "bytes32[2]",
-          "name": "notesOut",
-          "type": "bytes32[2]"
         }
       ],
       "name": "TheDeepWithdrawal",
@@ -516,6 +510,19 @@
     {
       "inputs": [
         {
+          "internalType": "bool",
+          "name": "allow",
+          "type": "bool"
+        }
+      ],
+      "name": "setAllowWithdrawals",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "assetPoolERC20",
           "type": "address"
@@ -634,6 +641,11 @@
               "type": "bytes32"
             },
             {
+              "internalType": "bytes32",
+              "name": "nullifier",
+              "type": "bytes32"
+            },
+            {
               "internalType": "address",
               "name": "vaultAddress",
               "type": "address"
@@ -670,6 +682,86 @@
             },
             {
               "internalType": "address",
+              "name": "asset1",
+              "type": "address"
+            },
+            {
+              "internalType": "uint128",
+              "name": "amount1",
+              "type": "uint128"
+            },
+            {
+              "internalType": "address",
+              "name": "asset2",
+              "type": "address"
+            },
+            {
+              "internalType": "uint128",
+              "name": "amount2",
+              "type": "uint128"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "inNullifier1",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "inNullifier2",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "noteFooter",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "nullifier",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "vaultAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "volatility",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "relayer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct TheDeepVaultAssetManager.TheDeepNoteDepositArgs",
+          "name": "_args",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_proof",
+          "type": "bytes"
+        }
+      ],
+      "name": "theDeepNoteDeposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "merkleRoot",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
               "name": "vaultAddress",
               "type": "address"
             },
@@ -689,14 +781,9 @@
               "type": "uint256[2]"
             },
             {
-              "internalType": "bytes32[2]",
-              "name": "outNoteFooters",
-              "type": "bytes32[2]"
-            },
-            {
-              "internalType": "address[2]",
-              "name": "assetsOut",
-              "type": "address[2]"
+              "internalType": "address",
+              "name": "receipt",
+              "type": "address"
             }
           ],
           "internalType": "struct TheDeepVaultAssetManager.TheDeepWithdrawArgs",

@@ -7,6 +7,7 @@ const {
 
 const { calculateFeeForTokens } = require('../modules/fees')
 const { BaseWorker } = require('./baseWorker')
+const { getTokens } = require('../defi/thedeep')
 
 class TheDeepWithdrawWorker extends BaseWorker {
 
@@ -18,8 +19,7 @@ class TheDeepWithdrawWorker extends BaseWorker {
                 amount: data.amount,
                 nullifier: data.nullifier,
                 gasRefund: refund,
-                outNoteFooters: [data.outNoteFooter1, data.outNoteFooter2],
-                assetsOut: [data.outAsset1, data.outAsset2]
+                receipt: data.receipt
             },
             data.proof
         )
@@ -46,7 +46,8 @@ class TheDeepWithdrawWorker extends BaseWorker {
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
         const [token0Amount, token1Amount] = await this.quoteDecreaseLiquidity(web3, data)
-        const fees = await calculateFeeForTokens(gasFee, [data.outAsset1, data.outAsset2], [token0Amount, token1Amount])
+        const { token0, token1 } = await getTokens(web3, data.vaultAddress)
+        const fees = await calculateFeeForTokens(gasFee, [token0, token1], [token0Amount, token1Amount])
         if (fees[0].gasFeeInToken + fees[0].serviceFeeInToken > token0Amount
             || fees[1].gasFeeInToken + fees[1].serviceFeeInToken > token1Amount) {
             throw new Error('Insufficient amount to pay fees')

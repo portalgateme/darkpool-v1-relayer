@@ -700,25 +700,21 @@ const pgDarkPoolTheDeepWithdrawSchema = {
     nullifier: bytes32Type,
     vaultAddress: addressType,
     amount: Uint256Type,
-    outNoteFooter1: bytes32Type,
-    outNoteFooter2: bytes32Type,
-    outAsset1: assetType,
-    outAsset2: assetType,
+    receipt: addressType,
     relayer: relayerType,
     refund1: Uint256Type,
     refund2: Uint256Type,
     verifierArgs: {
       type: 'array',
-      maxItems: 9,
-      minItems: 9,
-      items: new Array(9).fill(bytes32Type),
+      maxItems: 6,
+      minItems: 6,
+      items: new Array(6).fill(bytes32Type),
     },
   },
   additionalProperties: false,
   required: [
     'proof', 'merkleRoot', 'nullifier', 'vaultAddress', 'amount',
-    'outNoteFooter1', 'outNoteFooter2', 'outAsset1', 'outAsset2', 'relayer',
-    'refund1', 'refund2', 'verifierArgs']
+    'receipt', 'relayer', 'refund1', 'refund2', 'verifierArgs']
 }
 
 const validatePgDarkPoolWithdraw = ajv.compile(pgDarkPoolWithdrawSchema)
