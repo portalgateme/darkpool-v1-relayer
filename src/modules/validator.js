@@ -720,8 +720,8 @@ const pgDarkPoolTheDeepNoteDepositSchema = {
   additionalProperties: false,
   required: [
     'proof', 'merkleRoot', 'asset1', 'amount1', 'asset2', 'amount2',
-    'inNullifier1', 'inNullifier2', 'noteFooter', 'vaultAddress', 'volatility',
-    'relayer', 'refund1', 'refund2', 'verifierArgs']
+    'inNullifier1', 'inNullifier2', 'noteFooter', 'nullifier', 'vaultAddress', 
+    'volatility', 'relayer', 'refund1', 'refund2', 'verifierArgs']
 }
 
 
