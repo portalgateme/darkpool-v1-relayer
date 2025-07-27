@@ -54,11 +54,6 @@
           "internalType": "address",
           "name": "initialOwner",
           "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "volatilityCheckAddress",
-          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",
@@ -312,12 +307,12 @@
     },
     {
       "inputs": [],
-      "name": "VolatilityCheck",
+      "name": "getAllowWithdrawals",
       "outputs": [
         {
-          "internalType": "address",
+          "internalType": "bool",
           "name": "",
-          "type": "address"
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
@@ -614,7 +609,30 @@
     {
       "inputs": [
         {
+          "internalType": "uint8",
+          "name": "_vaultType",
+          "type": "uint8"
+        },
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setVolatilityCheck",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "components": [
+            {
+              "internalType": "uint8",
+              "name": "vaultType",
+              "type": "uint8"
+            },
             {
               "internalType": "address",
               "name": "asset1",
@@ -675,6 +693,11 @@
       "inputs": [
         {
           "components": [
+            {
+              "internalType": "uint8",
+              "name": "vaultType",
+              "type": "uint8"
+            },
             {
               "internalType": "bytes32",
               "name": "merkleRoot",
@@ -817,6 +840,25 @@
       "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "vault",
+          "type": "uint8"
+        }
+      ],
+      "name": "volatilityCheck",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {

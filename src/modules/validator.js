@@ -696,6 +696,7 @@ const pgDarkPoolTheDeepNoteDepositSchema = {
   type: 'object',
   properties: {
     proof: proofType,
+    vaultType: Uint256Type,
     merkleRoot: bytes32Type,
     asset1: assetType,
     amount1: Uint256Type,
@@ -719,7 +720,7 @@ const pgDarkPoolTheDeepNoteDepositSchema = {
   },
   additionalProperties: false,
   required: [
-    'proof', 'merkleRoot', 'asset1', 'amount1', 'asset2', 'amount2',
+    'proof', 'vaultType', 'merkleRoot', 'asset1', 'amount1', 'asset2', 'amount2',
     'inNullifier1', 'inNullifier2', 'noteFooter', 'nullifier', 'vaultAddress', 
     'volatility', 'relayer', 'refund1', 'refund2', 'verifierArgs']
 }

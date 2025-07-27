@@ -13,6 +13,7 @@ class TheDeepNoteDepositWorker extends BaseWorker {
     getContractCall(contract, data, refund) {
         let calldata = contract.methods.theDeepNoteDeposit(
             {
+                vaultType: data.vaultType,
                 merkleRoot: data.merkleRoot,
                 asset1: data.asset1,
                 amount1: data.amount1,
