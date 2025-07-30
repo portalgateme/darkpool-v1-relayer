@@ -22,7 +22,6 @@ class TheDeepNoteDepositWorker extends BaseWorker {
                 inNullifier1: data.inNullifier1,
                 inNullifier2: data.inNullifier2,
                 noteFooter: data.noteFooter,
-                nullifier: data.nullifier,
                 vaultAddress: data.vaultAddress,
                 volatility: data.volatility,
                 relayer: data.relayer,

@@ -307,19 +307,6 @@
     },
     {
       "inputs": [],
-      "name": "getAllowWithdrawals",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "getAssetPoolERC20",
       "outputs": [
         {
@@ -505,19 +492,6 @@
     {
       "inputs": [
         {
-          "internalType": "bool",
-          "name": "allow",
-          "type": "bool"
-        }
-      ],
-      "name": "setAllowWithdrawals",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address",
           "name": "assetPoolERC20",
           "type": "address"
@@ -659,11 +633,6 @@
               "type": "bytes32"
             },
             {
-              "internalType": "bytes32",
-              "name": "nullifier",
-              "type": "bytes32"
-            },
-            {
               "internalType": "address",
               "name": "vaultAddress",
               "type": "address"
@@ -736,11 +705,6 @@
             {
               "internalType": "bytes32",
               "name": "noteFooter",
-              "type": "bytes32"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "nullifier",
               "type": "bytes32"
             },
             {
