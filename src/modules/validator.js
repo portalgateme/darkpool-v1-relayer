@@ -712,9 +712,9 @@ const pgDarkPoolTheDeepNoteDepositSchema = {
     refund2: Uint256Type,
     verifierArgs: {
       type: 'array',
-      maxItems: 12,
-      minItems: 12,
-      items: new Array(12).fill(bytes32Type),
+      maxItems: 11,
+      minItems: 11,
+      items: new Array(11).fill(bytes32Type),
     },
   },
   additionalProperties: false,
