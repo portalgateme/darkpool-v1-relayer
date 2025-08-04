@@ -119,7 +119,7 @@ module.exports = {
     uniswapLiquidityAssetManager: '0xEC45a7379Ce48EcCdA153664D789A4Da00153b52',
     uniswapSwapAssetManager: '0x6bb88BF6Ca504C00C6B451d1B547C305850050C6',
     torosAssetManager: '0x0',
-    theDeepVaultAssetManager: '0x0',
+    theDeepVaultAssetManager: '0x105D350E91a4a9603F0c5381bB722A30ceE7C2CC',
     uniswapNfpManager: '0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1',
     uniswapFactory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
     sablierV2LockupLinear: '0x4CB16D4153123A74Bc724d161050959754f378D8',
