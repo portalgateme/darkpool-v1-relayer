@@ -604,6 +604,8 @@ const pgDarkPoolAerodromeSwapSchema = {
     inNullifier: bytes32Type,
     inAsset: assetType,
     inAmount: Uint256Type,
+    outAsset: assetType,
+    command: bytesType,
     routes: {
       type: 'array',
       minItems: 1,
@@ -611,12 +613,12 @@ const pgDarkPoolAerodromeSwapSchema = {
       items: {
         type: 'object',
         properties: {
-          from: addressType,
-          to: addressType,
-          stable: { type: 'boolean' },
-          factory: addressType
+          amountIn: Uint256Type,
+          amountOutMin: Uint256Type,
+          hops: bytesType,
+          isUni: { type: 'boolean' }
         },
-        required: ['from', 'to', 'stable', 'factory']
+        required: ['amountIn', 'amountOutMin', 'hops', 'isUni']
       }
     },
     routeHash: bytes32Type,
@@ -634,8 +636,9 @@ const pgDarkPoolAerodromeSwapSchema = {
   },
   additionalProperties: false,
   required: [
-    'proof', 'merkleRoot', 'inNullifier', 'inAsset', 'inAmount', 'routes', 'routeHash',
-    'minExpectedAmountOut', 'deadline', 'outNoteFooter', 'relayer', 'gasRefund', 'verifierArgs'
+    'proof', 'merkleRoot', 'inNullifier', 'inAsset', 'inAmount', 
+    'outAsset', 'command', 'routes', 'routeHash', 'minExpectedAmountOut', 
+    'deadline', 'outNoteFooter', 'relayer', 'gasRefund', 'verifierArgs'
   ],
 }
 

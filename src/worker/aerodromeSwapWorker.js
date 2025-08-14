@@ -1,7 +1,7 @@
-const pgDarkPoolAerodromeSwapAbi = require('../../abis/pgDarkPoolAerodromeSwapAssetManager.abi.json')
+const pgDarkPoolAerodromeUniversalSwapAssetManagerAbi = require('../../abis/pgDarkPoolAerodromeUniversalSwapAssetManager.json')
 
 const {
-    pgDarkPoolAerodromeSwapAssetManager,
+    pgDarkPoolAerodromeUniversalSwapAssetManager,
     gasLimits,
 } = require('../config/config')
 
@@ -19,13 +19,13 @@ class AerodromSwapWorker extends BaseWorker {
             nullifier: data.inNullifier,
             assetIn: data.inAsset,
             amountIn: data.inAmount,
-            route: data.routes,
+            assetOut: data.outAsset,
             routeHash: data.routeHash,
-            minExpectedAmountOut: data.minExpectedAmountOut,
             deadline: data.deadline,
             noteFooter: data.outNoteFooter,
-            relayer: data.relayer,
             gasRefund: gasRefund,
+            route: data.routes,
+            commands: data.command,
         }
         calldata = contract.methods.aerodromeSwap(data.proof, param)
 
@@ -39,7 +39,7 @@ class AerodromSwapWorker extends BaseWorker {
     }
 
     getContract(web3) {
-        return new web3.eth.Contract(pgDarkPoolAerodromeSwapAbi.abi, pgDarkPoolAerodromeSwapAssetManager)
+        return new web3.eth.Contract(pgDarkPoolAerodromeUniversalSwapAssetManagerAbi.abi, pgDarkPoolAerodromeUniversalSwapAssetManager)
     }
 
     async getTxObj(web3, data, gasFee) {
