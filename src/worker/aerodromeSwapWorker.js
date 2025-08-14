@@ -24,7 +24,7 @@ class AerodromSwapWorker extends BaseWorker {
             deadline: data.deadline,
             noteFooter: data.outNoteFooter,
             gasRefund: gasRefund,
-            route: data.routes,
+            commandDatas: data.routes,
             commands: data.command,
         }
         calldata = contract.methods.aerodromeSwap(data.proof, param)
@@ -44,10 +44,7 @@ class AerodromSwapWorker extends BaseWorker {
 
     async getTxObj(web3, data, gasFee) {
         const contract = this.getContract(web3)
-        const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, data.inAsset, data.inAmount)
-        if (gasFeeInToken + serviceFeeInToken > BigInt(data.inAmount)) {
-            throw new Error('Insufficient amount to pay fees')
-        }
+        const { gasFeeInToken, serviceFeeInToken } = await calculateFeesForOneToken(gasFee, data.outAsset, data.inAmount)
         const contractCall = this.getContractCall(contract, data, gasFeeInToken)
 
         return {
