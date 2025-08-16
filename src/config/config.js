@@ -49,7 +49,7 @@ module.exports = {
   rewardAccount: process.env.REWARD_ACCOUNT,
   gasLimits: gasLimitConfig[netId],
   gasUnitFallback: gasUnitFallbackConfig[netId],
-  minimumBalance: '500000000000000000',
+  minimumBalance: process.env.MIN_BALANCE || '500000000000000000',
   baseFeeReserve: Number(process.env.BASE_FEE_RESERVE_PERCENTAGE),
   stakingTokenMapping: stakingTokenConfig[netId],
   skipDefaultPriceOrace: pgConfig[netId].skipDefaultPriceOrace ? true : false,
