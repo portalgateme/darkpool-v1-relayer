@@ -115,7 +115,7 @@ module.exports = {
     aerodromeAddLiquidityAssetManager: '0xfBf0dDceF9360757fCA368911b6719a35DD8C660',
     aerodromeRemoveLiquidityAssetManager: '0xB1CC5D9227323330E8a58e891c123B38D03f0BAA',
     aerodromeSwapAssetManager: '0x159F3668c72BBeCdF1fb31beeD606Ec9649654eB',
-    aerodromeUniversalSwapAssetManager: '0x0',//FIXME
+    aerodromeUniversalSwapAssetManager: '0x75640878dF057a994771e60992840C2FD400c821',
     generalDefiIntegrationAssetManager: '0x53e5A08c95CF866E34F2A6A685ee9f90366e154E',
     sablierDynamicAssetManager: '0xc98b275a309F187b691e025B956e03603e12b420',
     sablierLinearAssetManager: '0x4d459dDe25707CA353De15CC3B85b7C2e4bb380c',
