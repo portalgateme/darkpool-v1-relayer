@@ -18,6 +18,7 @@
     "aerodromeAddLiquidityAssetManager": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB",
     "aerodromeRemoveLiquidityAssetManager": "0xD84379CEae14AA33C123Af12424A37803F885889",
     "aerodromeSwapAssetManager": "0x1c85638e118b37167e9298c2268758e058DdfDA0",
+    "aerodromeUniversalSwapAssetManager": "0x0",
     "generalDefiIntegrationAssetManager": "0x4631BCAbD6dF18D94796344963cB60d44a4136b6",
     "sablierDynamicAssetManager": "0x5c74c94173F05dA1720953407cbb920F3DF9f887",
     "sablierLinearAssetManager": "0x4b6aB5F819A515382B0dEB6935D793817bB4af28",
