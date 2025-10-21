@@ -54,4 +54,5 @@ module.exports = {
   stakingTokenMapping: stakingTokenConfig[netId],
   skipDefaultPriceOrace: pgConfig[netId].skipDefaultPriceOrace ? true : false,
   maxPriorityFee: maxPriorityFeeConfig[netId] ?? DEFAULT_MAX_PRIORITY_FEE,
+  minGweiBump: Number(process.env.MIN_GWEI_BUMP) || 1,
 }

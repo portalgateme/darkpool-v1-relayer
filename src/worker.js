@@ -29,9 +29,10 @@ const { jobType, status } = require('./config/constants')
 const {
   privateKey,
   httpRpcUrl,
-  oracleRpcUrl,
   baseFeeReserve,
   gasUnitFallback,
+  maxPriorityFee,
+  minGweiBump,
 } = require('./config/config')
 const { TxManager } = require('tx-manager')
 const { redis, redisSubscribe } = require('./modules/redis')
@@ -72,7 +73,7 @@ async function start() {
   try {
     await clearErrors()
     web3 = getWeb3()
-    const { CONFIRMATIONS, MAX_GAS_PRICE, MAX_RETRIES } = process.env
+    const { CONFIRMATIONS, MAX_GAS_PRICE, MAX_RETRIES, OPTIMIZE_L2_PRIORITY_FEE } = process.env
     txManager = new TxManager({
       privateKey,
       rpcUrl: httpRpcUrl,
@@ -82,7 +83,14 @@ async function start() {
         THROW_ON_REVERT: false,
         BASE_FEE_RESERVE_PERCENTAGE: baseFeeReserve,
         MAX_RETRIES,
+        DEFAULT_PRIORITY_FEE: maxPriorityFee,
+        MIN_GWEI_BUMP: minGweiBump,
       },
+      ...(OPTIMIZE_L2_PRIORITY_FEE && {
+        gasPriceOracleConfig: {
+          minPriority: 0,
+        },
+      }),
     })
     queue.process(processJob)
     console.log('Worker started')
