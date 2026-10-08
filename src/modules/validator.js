@@ -39,7 +39,8 @@ ajv.addKeyword('isFeeRecipient', {
 })
 
 const addressType = { type: 'string', pattern: '^0x[a-fA-F0-9]{40}$', isAddress: true }
-const proofType = { type: 'string', pattern: '^0x[a-fA-F0-9]{4288}$' }
+// UltraHonk proof: whole 32 byte words, the size depends on the circuit (the verifier checks the exact length)
+const proofType = { type: 'string', pattern: '^0x([a-fA-F0-9]{64})+$' }
 //const encryptedAccountType = { type: 'string', pattern: '^0x[a-fA-F0-9]{392}$' }
 const bytes32Type = { type: 'string', pattern: '^0x[a-fA-F0-9]{64}$' }
 const Uint256Type = { type: 'string', pattern: '^0x[a-fA-F0-9]{1,64}$' }
