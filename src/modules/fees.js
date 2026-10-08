@@ -12,15 +12,36 @@ const GAS_PRECISION = 10
 const GAS_UNIT_BUFF = 1
 const GAS_PRIORITY_BUFF = 2
 const MAX_PRIORITY_FEE_PRECISION = 10 ** 9
+const PRIORITY_FEE_BLOCKS = 20
+const PRIORITY_FEE_PERCENTILE = 75
 
 const gasPriceOracle = new GasPriceOracle({ defaultRpc: oracleRpcUrl })
+
+// Priority fee charged to the user: median over the last PRIORITY_FEE_BLOCKS blocks of each block's
+// PRIORITY_FEE_PERCENTILE-th percentile tip, capped by the chain's maxPriorityFee (gasConfig.js).
+// Falls back to the cap when the RPC cannot serve eth_feeHistory.
+async function getPriorityFee() {
+    const cap = toBN(Math.round(config.maxPriorityFee * MAX_PRIORITY_FEE_PRECISION))
+    try {
+        const { reward } = await priceWeb3.eth.getFeeHistory(PRIORITY_FEE_BLOCKS, 'latest', [PRIORITY_FEE_PERCENTILE])
+        if (!reward || reward.length === 0) {
+            return cap
+        }
+        const tips = reward.map((r) => toBN(r[0])).sort((a, b) => a.cmp(b))
+        const median = tips[Math.floor(tips.length / 2)]
+        return median.lt(cap) ? median : cap
+    } catch (e) {
+        console.error('eth_feeHistory failed, using maxPriorityFee', e.message)
+        return cap
+    }
+}
 
 async function getGasPrice(web3) {
     const block = await priceWeb3.eth.getBlock('latest')
     if (block && block.baseFeePerGas) {
-        const maxPriorityFee = config.maxPriorityFee * MAX_PRIORITY_FEE_PRECISION
-        console.log("=====baseFeePerGas,maxPriorityFee:", block.baseFeePerGas, maxPriorityFee);
-        return toBN(block.baseFeePerGas).add(toBN(maxPriorityFee))
+        const priorityFee = await getPriorityFee()
+        console.log("=====baseFeePerGas,priorityFee:", block.baseFeePerGas, priorityFee.toString());
+        return toBN(block.baseFeePerGas).add(priorityFee)
     }
 
     const { fast } = await gasPriceOracle.gasPrices()
