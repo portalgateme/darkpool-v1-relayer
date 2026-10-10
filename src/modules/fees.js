@@ -4,6 +4,7 @@ const { getPriceToNativeFromLLama } = require('./priceOracle')
 const { GasPriceOracle } = require('gas-price-oracle')
 const { oracleRpcUrl } = require('../config/config')
 const config = require('../config/config')
+const { ChainId } = require('../config/constants')
 const priceWeb3 = require('./web3')('oracle')
 
 const NATIVE_DECIMAL = 18
@@ -12,19 +13,21 @@ const GAS_PRECISION = 10
 const GAS_UNIT_BUFF = 1
 const GAS_PRIORITY_BUFF = 2
 const MAX_PRIORITY_FEE_PRECISION = 10 ** 9
-const PRIORITY_FEE_BLOCKS = 20
+const PRIORITY_FEE_BLOCKS = config.netId === ChainId.MAINNET ? 5 : 20
 const PRIORITY_FEE_PERCENTILE = 75
 
 const gasPriceOracle = new GasPriceOracle({ defaultRpc: oracleRpcUrl })
 
-// Fee params from the oracle chain: the next block's base fee (last entry of eth_feeHistory's baseFeePerGas)
+// Mainnet uses the sending RPC; other chains retain the oracle RPC.
+// The next block's base fee is the last entry of eth_feeHistory's baseFeePerGas,
 // and the priority fee, which is the median over the last PRIORITY_FEE_BLOCKS blocks of each block's
 // PRIORITY_FEE_PERCENTILE-th percentile tip, capped by the chain's maxPriorityFee (gasConfig.js).
 // The worker charges and sends with the same priorityFee. Returns null on chains without EIP-1559.
-async function getFeeParams() {
+async function getFeeParams(web3 = priceWeb3) {
+    const feeWeb3 = config.netId === ChainId.MAINNET ? web3 : priceWeb3
     const cap = toBN(Math.round(config.maxPriorityFee * MAX_PRIORITY_FEE_PRECISION))
     try {
-        const { baseFeePerGas, reward } = await priceWeb3.eth.getFeeHistory(PRIORITY_FEE_BLOCKS, 'latest', [PRIORITY_FEE_PERCENTILE])
+        const { baseFeePerGas, reward } = await feeWeb3.eth.getFeeHistory(PRIORITY_FEE_BLOCKS, 'latest', [PRIORITY_FEE_PERCENTILE])
         if (!baseFeePerGas || baseFeePerGas.length === 0) {
             return null
         }
@@ -37,7 +40,7 @@ async function getFeeParams() {
         return { baseFee, priorityFee: median.lt(cap) ? median : cap }
     } catch (e) {
         console.error('eth_feeHistory failed, using latest base fee and maxPriorityFee', e.message)
-        const block = await priceWeb3.eth.getBlock('latest')
+        const block = await feeWeb3.eth.getBlock('latest')
         return block && block.baseFeePerGas ? { baseFee: toBN(block.baseFeePerGas), priorityFee: cap } : null
     }
 }
@@ -68,8 +71,11 @@ async function getTxGasParams(web3, feeParams, maxGasPrice) {
     if (!feeParams) {
         return {}
     }
-    const { baseFeePerGas } = await web3.eth.getFeeHistory(1, 'latest', [])
-    const nextBaseFee = toBN(baseFeePerGas[baseFeePerGas.length - 1])
+    let nextBaseFee = feeParams.baseFee
+    if (config.netId !== ChainId.MAINNET) {
+        const { baseFeePerGas } = await web3.eth.getFeeHistory(1, 'latest', [])
+        nextBaseFee = toBN(baseFeePerGas[baseFeePerGas.length - 1])
+    }
     const cap = toBN(toWei(String(maxGasPrice), 'gwei'))
     let maxFeePerGas = nextBaseFee.muln(2).add(feeParams.priorityFee)
     if (maxFeePerGas.gt(cap)) {

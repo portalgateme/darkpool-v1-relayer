@@ -25,8 +25,9 @@ const {
   RelayerError,
   logRelayerError,
 } = require('./utils')
-const { jobType, status } = require('./config/constants')
+const { jobType, status, ChainId } = require('./config/constants')
 const {
+  netId,
   privateKey,
   httpRpcUrl,
   baseFeeReserve,
@@ -114,13 +115,33 @@ async function getTxObject({ data }) {
     try {
       gasAmount = await worker.estimateGas(web3, data)
     } catch (e) {
-      console.error(e, 'Estimation fallback', data.type)
-      gasAmount = gasUnitFallback[data.type]
+      if (netId === ChainId.MAINNET) {
+        console.error(e, 'Retrying gas estimation', data.type)
+        gasAmount = await worker.estimateGas(web3, data)
+      } else {
+        console.error(e, 'Estimation fallback', data.type)
+        gasAmount = gasUnitFallback[data.type]
+      }
     }
-    const feeParams = await getFeeParams()
-    const gasFee = await calcGasFee(web3, gasAmount, feeParams)
-    const tx = await worker.getTxObj(web3, data, gasFee)
-    return { ...tx, ...(await getTxGasParams(web3, feeParams, txManager.config.MAX_GAS_PRICE || 1000)) }
+    const feeParams = await getFeeParams(web3)
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const gasFee = await calcGasFee(web3, gasAmount, feeParams)
+      const tx = {
+        ...(await worker.getTxObj(web3, data, gasFee)),
+        ...(await getTxGasParams(web3, feeParams, txManager.config.MAX_GAS_PRICE || 1000)),
+      }
+      if (netId !== ChainId.MAINNET) return tx
+
+      // The refund changes calldata. Validate the actual transaction with the signing account.
+      const { gasLimit, ...estimateTx } = tx
+      const finalGas = await web3.eth.estimateGas({ ...estimateTx, from: txManager.address, gas: gasLimit })
+      console.log('Gas estimate before/after refund:', gasAmount, finalGas)
+      // Match the 10% gas-unit buffer charged by calcGasFee; preserve the price buffer.
+      if (finalGas <= Math.floor((gasAmount * 11) / 10) && finalGas <= gasLimit) return tx
+      if (finalGas > gasLimit) throw new RelayerError('Final gas estimate exceeds transaction gas limit')
+      gasAmount = finalGas
+    }
+    throw new RelayerError('Final gas estimate exceeds fee buffer after recalculation')
   } else {
     throw new RelayerError(`Unknown job type: ${data.type}`)
   }
