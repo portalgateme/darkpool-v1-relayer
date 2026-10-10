@@ -33,12 +33,13 @@ const {
   gasUnitFallback,
   maxPriorityFee,
   minGweiBump,
+  gasBumpInterval,
 } = require('./config/config')
 const { TxManager } = require('tx-manager')
 const { redis, redisSubscribe } = require('./modules/redis')
 const getWeb3 = require('./modules/web3')
 const { zkProofVerifier } = require('./modules/verifier')
-const { calcGasFee } = require('./modules/fees')
+const { calcGasFee, getFeeParams, getTxGasParams } = require('./modules/fees')
 
 let web3
 let currentTx
@@ -85,6 +86,7 @@ async function start() {
         MAX_RETRIES,
         DEFAULT_PRIORITY_FEE: maxPriorityFee,
         MIN_GWEI_BUMP: minGweiBump,
+        GAS_BUMP_INTERVAL: gasBumpInterval,
       },
       ...(OPTIMIZE_L2_PRIORITY_FEE && {
         gasPriceOracleConfig: {
@@ -115,8 +117,10 @@ async function getTxObject({ data }) {
       console.error(e, 'Estimation fallback', data.type)
       gasAmount = gasUnitFallback[data.type]
     }
-    const gasFee = await calcGasFee(web3, gasAmount)
-    return await worker.getTxObj(web3, data, gasFee)
+    const feeParams = await getFeeParams()
+    const gasFee = await calcGasFee(web3, gasAmount, feeParams)
+    const tx = await worker.getTxObj(web3, data, gasFee)
+    return { ...tx, ...(await getTxGasParams(web3, feeParams, txManager.config.MAX_GAS_PRICE || 1000)) }
   } else {
     throw new RelayerError(`Unknown job type: ${data.type}`)
   }

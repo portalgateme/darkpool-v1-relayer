@@ -55,4 +55,6 @@ module.exports = {
   skipDefaultPriceOrace: pgConfig[netId].skipDefaultPriceOrace ? true : false,
   maxPriorityFee: maxPriorityFeeConfig[netId] ?? DEFAULT_MAX_PRIORITY_FEE,
   minGweiBump: Number(process.env.MIN_GWEI_BUMP) || 1,
+  // ms a sent tx may stay pending before tx-manager resubmits it with higher fees
+  gasBumpInterval: Number(process.env.GAS_BUMP_INTERVAL) || 60 * 1000,
 }
