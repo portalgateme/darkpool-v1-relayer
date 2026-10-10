@@ -1,7 +1,14 @@
 require('dotenv').config()
 
 const pgConfig = require('./pgDarkPoolConfig')
-const { gasLimitConfig, gasUnitFallbackConfig, maxPriorityFeeConfig, DEFAULT_MAX_PRIORITY_FEE } = require('./gasConfig')
+const {
+  gasLimitConfig,
+  gasUnitFallbackConfig,
+  maxPriorityFeeConfig,
+  DEFAULT_MAX_PRIORITY_FEE,
+  minGweiBumpConfig,
+  DEFAULT_MIN_GWEI_BUMP,
+} = require('./gasConfig')
 const { stakingTokenConfig } = require('./stakingConfig')
 
 const netId = Number(process.env.NET_ID) || 1
@@ -54,7 +61,7 @@ module.exports = {
   stakingTokenMapping: stakingTokenConfig[netId],
   skipDefaultPriceOrace: pgConfig[netId].skipDefaultPriceOrace ? true : false,
   maxPriorityFee: maxPriorityFeeConfig[netId] ?? DEFAULT_MAX_PRIORITY_FEE,
-  minGweiBump: Number(process.env.MIN_GWEI_BUMP) || 1,
+  minGweiBump: Number(process.env.MIN_GWEI_BUMP) || (minGweiBumpConfig[netId] ?? DEFAULT_MIN_GWEI_BUMP),
   // ms a sent tx may stay pending before tx-manager resubmits it with higher fees
   gasBumpInterval: Number(process.env.GAS_BUMP_INTERVAL) || 60 * 1000,
 }
