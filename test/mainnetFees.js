@@ -94,6 +94,29 @@ describe('Mainnet fee sampling', () => {
     assert.equal(toBN(tx.maxPriorityFeePerGas).toString(), '2000000000')
   })
 
+  it('samples mainnet through the oracle RPC on the hardhat fork', async () => {
+    const fees = loadFees(31337, {
+      eth: {
+        getFeeHistory: (...args) => {
+          assert.deepEqual(JSON.parse(JSON.stringify(args)), [5, 'latest', [50]])
+          return Promise.resolve(history())
+        },
+      },
+    })
+    const web3 = {
+      eth: {
+        getFeeHistory: blocks => {
+          assert.equal(blocks, 1)
+          return Promise.resolve({ baseFeePerGas: ['20', '30'] })
+        },
+      },
+    }
+    const params = await fees.getFeeParams(web3)
+    assert.equal(params.priorityFee.toString(), '3')
+    const tx = await fees.getTxGasParams(web3, params, 1000)
+    assert.equal(toBN(tx.maxFeePerGas).toString(), '63')
+  })
+
   it('keeps the 20-block oracle sampling and sending-chain lookup on Base', async () => {
     const fees = loadFees(8453, {
       eth: {
@@ -237,6 +260,14 @@ describe('Mainnet final calldata gas validation', () => {
   it('stops when final calldata reverts instead of sending with a fallback', async () => {
     const h = await workerHarness({ final: [new Error('execution reverted')] })
     await assert.rejects(h.run(), /execution reverted/)
+  })
+
+  it('checks the final calldata on the hardhat fork as on mainnet', async () => {
+    const h = await workerHarness({ netId: 31337, initial: [new Error('RPC timeout'), 4000000], final: [4100000] })
+    await h.run()
+    assert.equal(h.initialCalls(), 2)
+    assert.equal(h.estimates.length, 1)
+    assert.equal(h.estimates[0].from, 'actual-signer')
   })
 
   it('keeps the existing fallback and transaction flow on other chains', async () => {

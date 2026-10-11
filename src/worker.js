@@ -103,6 +103,9 @@ async function start() {
   }
 }
 
+// The hardhat test env (31337) forks mainnet and checks gas the same way.
+const MAINNET_GAS_CHECKS = netId === ChainId.MAINNET || netId === ChainId.HARDHAT
+
 async function getTxObject({ data }) {
   const validProof = await zkProofVerifier(web3, data.proof, data.verifierArgs, data.type)
   if (!validProof) {
@@ -115,7 +118,7 @@ async function getTxObject({ data }) {
     try {
       gasAmount = await worker.estimateGas(web3, data)
     } catch (e) {
-      if (netId === ChainId.MAINNET) {
+      if (MAINNET_GAS_CHECKS) {
         console.error(e, 'Retrying gas estimation', data.type)
         gasAmount = await worker.estimateGas(web3, data)
       } else {
@@ -130,7 +133,7 @@ async function getTxObject({ data }) {
         ...(await worker.getTxObj(web3, data, gasFee)),
         ...(await getTxGasParams(web3, feeParams, txManager.config.MAX_GAS_PRICE || 1000)),
       }
-      if (netId !== ChainId.MAINNET) return tx
+      if (!MAINNET_GAS_CHECKS) return tx
 
       // The refund changes calldata. Validate the actual transaction with the signing account.
       const { gasLimit, ...estimateTx } = tx

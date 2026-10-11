@@ -13,10 +13,13 @@ const GAS_PRECISION = 10
 const GAS_UNIT_BUFF = 1
 const GAS_PRIORITY_BUFF = 2
 const MAX_PRIORITY_FEE_PRECISION = 10 ** 9
-const PRIORITY_FEE_BLOCKS = config.netId === ChainId.MAINNET ? 5 : 20
+// The hardhat test env (31337) forks mainnet and samples mainnet through the oracle RPC,
+// so it uses the mainnet sampling too.
+const MAINNET_SAMPLING = config.netId === ChainId.MAINNET || config.netId === ChainId.HARDHAT
+const PRIORITY_FEE_BLOCKS = MAINNET_SAMPLING ? 5 : 20
 // Mainnet blocks usually have room, so the median tip is included within a block or two
 // (tx-manager bumps it if not); L2s keep p75.
-const PRIORITY_FEE_PERCENTILE = config.netId === ChainId.MAINNET ? 50 : 75
+const PRIORITY_FEE_PERCENTILE = MAINNET_SAMPLING ? 50 : 75
 
 const gasPriceOracle = new GasPriceOracle({ defaultRpc: oracleRpcUrl })
 
