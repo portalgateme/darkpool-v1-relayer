@@ -4,7 +4,23 @@ const { ChainId } = require('./constants')
 
 const DEFAULT_MAX_PRIORITY_FEE = 3
 
+// Cap (gwei) on the p75 priority fee charged and paid (fees.js). Base tips are paid: p75 is ~0.002 gwei,
+// so the cap sits above it. Arbitrum ignores tips.
 const maxPriorityFeeConfig = {
+    [ChainId.ARBITRUM_ONE]: 0.001,
+    [ChainId.BASE]: 0.01,
+    [ChainId.HARDHAT_ARBITRUM]: 0.001,
+    [ChainId.HARDHAT_BASE]: 0.01,
+}
+
+const DEFAULT_MIN_GWEI_BUMP = 1
+
+// Smallest step (gwei) tx-manager adds to maxFeePerGas and the tip when it resubmits a pending tx.
+// Sized to the chain's gas price so one bump does not cost far more than the user was charged.
+// MIN_GWEI_BUMP in the env overrides it.
+const minGweiBumpConfig = {
+    [ChainId.MAINNET]: 0.1,
+    [ChainId.HARDHAT]: 0.1,
     [ChainId.ARBITRUM_ONE]: 0.001,
     [ChainId.BASE]: 0.001,
     [ChainId.HARDHAT_ARBITRUM]: 0.001,
@@ -227,5 +243,7 @@ module.exports = {
     gasLimitConfig,
     gasUnitFallbackConfig,
     maxPriorityFeeConfig,
-    DEFAULT_MAX_PRIORITY_FEE
+    DEFAULT_MAX_PRIORITY_FEE,
+    minGweiBumpConfig,
+    DEFAULT_MIN_GWEI_BUMP,
 }
