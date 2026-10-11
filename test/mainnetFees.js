@@ -44,7 +44,7 @@ describe('Mainnet fee sampling', () => {
     const web3 = {
       eth: {
         getFeeHistory: (...args) => {
-          assert.deepEqual(JSON.parse(JSON.stringify(args)), [5, 'latest', [75]])
+          assert.deepEqual(JSON.parse(JSON.stringify(args)), [5, 'latest', [50]])
           calls++
           return Promise.resolve(history())
         },
@@ -97,8 +97,9 @@ describe('Mainnet fee sampling', () => {
   it('keeps the 20-block oracle sampling and sending-chain lookup on Base', async () => {
     const fees = loadFees(8453, {
       eth: {
-        getFeeHistory: blocks => {
+        getFeeHistory: (blocks, newest, percentiles) => {
           assert.equal(blocks, 20)
+          assert.deepEqual(JSON.parse(JSON.stringify(percentiles)), [75])
           return Promise.resolve(history())
         },
       },

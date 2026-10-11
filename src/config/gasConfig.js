@@ -19,8 +19,8 @@ const DEFAULT_MIN_GWEI_BUMP = 1
 // Sized to the chain's gas price so one bump does not cost far more than the user was charged.
 // MIN_GWEI_BUMP in the env overrides it.
 const minGweiBumpConfig = {
-    [ChainId.MAINNET]: 0.1,
-    [ChainId.HARDHAT]: 0.1,
+    [ChainId.MAINNET]: 0.01,
+    [ChainId.HARDHAT]: 0.01,
     [ChainId.ARBITRUM_ONE]: 0.001,
     [ChainId.BASE]: 0.001,
     [ChainId.HARDHAT_ARBITRUM]: 0.001,
