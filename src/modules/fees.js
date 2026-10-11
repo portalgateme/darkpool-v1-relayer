@@ -14,7 +14,9 @@ const GAS_UNIT_BUFF = 1
 const GAS_PRIORITY_BUFF = 2
 const MAX_PRIORITY_FEE_PRECISION = 10 ** 9
 const PRIORITY_FEE_BLOCKS = config.netId === ChainId.MAINNET ? 5 : 20
-const PRIORITY_FEE_PERCENTILE = 75
+// Mainnet blocks usually have room, so the median tip is included within a block or two
+// (tx-manager bumps it if not); L2s keep p75.
+const PRIORITY_FEE_PERCENTILE = config.netId === ChainId.MAINNET ? 50 : 75
 
 const gasPriceOracle = new GasPriceOracle({ defaultRpc: oracleRpcUrl })
 
