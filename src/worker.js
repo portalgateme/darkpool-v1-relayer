@@ -25,20 +25,22 @@ const {
   RelayerError,
   logRelayerError,
 } = require('./utils')
-const { jobType, status } = require('./config/constants')
+const { jobType, status, ChainId } = require('./config/constants')
 const {
+  netId,
   privateKey,
   httpRpcUrl,
   baseFeeReserve,
   gasUnitFallback,
   maxPriorityFee,
   minGweiBump,
+  gasBumpInterval,
 } = require('./config/config')
 const { TxManager } = require('tx-manager')
 const { redis, redisSubscribe } = require('./modules/redis')
 const getWeb3 = require('./modules/web3')
 const { zkProofVerifier } = require('./modules/verifier')
-const { calcGasFee } = require('./modules/fees')
+const { calcGasFee, getFeeParams, getTxGasParams } = require('./modules/fees')
 
 let web3
 let currentTx
@@ -85,6 +87,7 @@ async function start() {
         MAX_RETRIES,
         DEFAULT_PRIORITY_FEE: maxPriorityFee,
         MIN_GWEI_BUMP: minGweiBump,
+        GAS_BUMP_INTERVAL: gasBumpInterval,
       },
       ...(OPTIMIZE_L2_PRIORITY_FEE && {
         gasPriceOracleConfig: {
@@ -100,6 +103,9 @@ async function start() {
   }
 }
 
+// The hardhat test env (31337) forks mainnet and checks gas the same way.
+const MAINNET_GAS_CHECKS = netId === ChainId.MAINNET || netId === ChainId.HARDHAT
+
 async function getTxObject({ data }) {
   const validProof = await zkProofVerifier(web3, data.proof, data.verifierArgs, data.type)
   if (!validProof) {
@@ -112,11 +118,33 @@ async function getTxObject({ data }) {
     try {
       gasAmount = await worker.estimateGas(web3, data)
     } catch (e) {
-      console.error(e, 'Estimation fallback', data.type)
-      gasAmount = gasUnitFallback[data.type]
+      if (MAINNET_GAS_CHECKS) {
+        console.error(e, 'Retrying gas estimation', data.type)
+        gasAmount = await worker.estimateGas(web3, data)
+      } else {
+        console.error(e, 'Estimation fallback', data.type)
+        gasAmount = gasUnitFallback[data.type]
+      }
     }
-    const gasFee = await calcGasFee(web3, gasAmount)
-    return await worker.getTxObj(web3, data, gasFee)
+    const feeParams = await getFeeParams(web3)
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const gasFee = await calcGasFee(web3, gasAmount, feeParams)
+      const tx = {
+        ...(await worker.getTxObj(web3, data, gasFee)),
+        ...(await getTxGasParams(web3, feeParams, txManager.config.MAX_GAS_PRICE || 1000)),
+      }
+      if (!MAINNET_GAS_CHECKS) return tx
+
+      // The refund changes calldata. Validate the actual transaction with the signing account.
+      const { gasLimit, ...estimateTx } = tx
+      const finalGas = await web3.eth.estimateGas({ ...estimateTx, from: txManager.address, gas: gasLimit })
+      console.log('Gas estimate before/after refund:', gasAmount, finalGas)
+      // Match the 10% gas-unit buffer charged by calcGasFee; preserve the price buffer.
+      if (finalGas <= Math.floor((gasAmount * 11) / 10) && finalGas <= gasLimit) return tx
+      if (finalGas > gasLimit) throw new RelayerError('Final gas estimate exceeds transaction gas limit')
+      gasAmount = finalGas
+    }
+    throw new RelayerError('Final gas estimate exceeds fee buffer after recalculation')
   } else {
     throw new RelayerError(`Unknown job type: ${data.type}`)
   }

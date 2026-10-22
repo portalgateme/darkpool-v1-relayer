@@ -14,6 +14,8 @@ const { BaseWorker } = require('./baseWorker')
 const { getAsset, getWithdrawableAmount } = require('../defi/sablierService')
 const config = require('../config/config')
 
+const ESTIMATE_GAS_REFUND = 1
+
 class SablierClaimWorker extends BaseWorker {
 
   getContractCall(contract, data, refund) {
@@ -37,7 +39,9 @@ class SablierClaimWorker extends BaseWorker {
 
   async estimateGas(web3, data) {
     const contract = this.getContract(web3, data)
-    const contractCall = this.getContractCall(contract, data, gasLimits.DEFI_WITH_EXTRA)
+    // The refund is not known yet. 1 takes the same refund transfer as the real one, and unlike a gas limit used as
+    // a token amount (20 USDC for DEFI_WITH_EXTRA) it does not make claims below that amount revert in the estimate.
+    const contractCall = this.getContractCall(contract, data, ESTIMATE_GAS_REFUND)
     return await contractCall.estimateGas({ from: data.relayer })
   }
 

@@ -28,6 +28,22 @@ const verifierMap = {
    [jobType.PG_DARKPOOL_THE_DEEP_WITHDRAW]: 'thedeepWithdraw',
  }
 
+// Errors of the UltraHonk verifiers (bb 5.2.0) that mean the proof is invalid
+const invalidProofErrors = [
+   '0x9fc3a218', // SumcheckFailed()
+   '0xa5d82e8a', // ShpleminiFailed()
+   '0xed74ac0a', // ProofLengthWrong()
+   '0x59895a53', // ProofLengthWrongWithLogN(uint256,uint256,uint256)
+   '0xfa066593', // PublicInputsLengthWrong()
+   '0xeb73e0bd', // ValueGeLimbMax()
+   '0x607be13e', // ValueGeGroupOrder()
+   '0x20a33589', // ValueGeFieldOrder()
+   '0x4ddaa5e5', // PointAtInfinity()
+   '0xa2a2ac83', // ConsistencyCheckFailed()
+   '0x835eb8f7', // GeminiChallengeInSubgroup()
+   '0xb2c952e2', // InvertOfZero()
+]
+
 async function zkProofVerifier(web3, proof, input, job) {
    let verifierName = verifierMap[job]
    if(!verifierName) {
@@ -40,7 +56,8 @@ async function zkProofVerifier(web3, proof, input, job) {
    try {
       return await verifierContract.methods.verify(proof, input).call()
    } catch (e) {
-      if (e.message.indexOf('0x0711fcec') !== -1) {
+      const revertData = `${e.message} ${typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '')}`
+      if (invalidProofErrors.some((selector) => revertData.indexOf(selector) !== -1)) {
          return false
       }
       throw new RelayerError('Proof fail, Please try again later' , 0)
