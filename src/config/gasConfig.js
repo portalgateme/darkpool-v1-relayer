@@ -30,7 +30,7 @@ const minGweiBumpConfig = {
 const gasLimitConfig = {
     [ChainId.MAINNET]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.ARBITRUM_ONE]: {
         WITHDRAW_WITH_EXTRA: 20000000,
@@ -38,35 +38,35 @@ const gasLimitConfig = {
     },
     [ChainId.BASE]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.BounceBit]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.SEPOLIA]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.BounceBitTestnet]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.EMCTestnet]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.HARDHAT]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.HARDHAT_ARBITRUM]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     },
     [ChainId.HARDHAT_BASE]: {
         WITHDRAW_WITH_EXTRA: 6000000,
-        DEFI_WITH_EXTRA: 20000000,
+        DEFI_WITH_EXTRA: 16000000,
     }
 }
 
